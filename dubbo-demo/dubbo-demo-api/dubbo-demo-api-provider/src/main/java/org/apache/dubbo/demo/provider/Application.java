@@ -26,7 +26,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class Application {
     public static void main(String[] args) throws Exception {
-        if (isClassic(args)) {
+        if (true) {
             startWithExport();
         } else {
             startWithBootstrap();
@@ -38,27 +38,40 @@ public class Application {
     }
 
     private static void startWithBootstrap() {
-        ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
-        service.setInterface(DemoService.class);
-        service.setRef(new DemoServiceImpl());
 
+        // 创建一个ServiceConfig instance 泛型参数是业务接口实现类
+        // DemoServiceImpl
+        ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
+        // 指定业务接口
+        service.setInterface(DemoService.class);
+        // 指定业务实接口的实现, 由该对象来处理Consumer的request
+        service.setRef(new DemoServiceImpl());
+        // 获取单例对象  dubboBootstrap 启动对象
         DubboBootstrap bootstrap = DubboBootstrap.getInstance();
+        System.out.println("bootstrap provider = " + bootstrap);
+        // 设置应用信息 ApplicationConfig  zk 地址 以及服务实例ServiceConfig
         bootstrap.application(new ApplicationConfig("dubbo-demo-api-provider"))
-                .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .registry(new RegistryConfig("zookeeper://106.75.249.240:2181"))
                 .service(service)
                 .start()
                 .await();
     }
 
     private static void startWithExport() throws InterruptedException {
+
+        // 创建一个ServiceConfig instance 泛型参数是业务接口实现类
+        // DemoServiceImpl
         ServiceConfig<DemoServiceImpl> service = new ServiceConfig<>();
+        // 指定业务接口
         service.setInterface(DemoService.class);
+        // 指定业务实接口的实现, 由该对象来处理Consumer的request
         service.setRef(new DemoServiceImpl());
         service.setApplication(new ApplicationConfig("dubbo-demo-api-provider"));
-        service.setRegistry(new RegistryConfig("zookeeper://127.0.0.1:2181"));
+        service.setRegistry(new RegistryConfig("zookeeper://106.75.249.240:2181"));
         service.export();
 
         System.out.println("dubbo service started");
         new CountDownLatch(1).await();
+        System.out.println("dubbo service stopde");
     }
 }

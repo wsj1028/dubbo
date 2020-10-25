@@ -20,11 +20,11 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
-
+    <!-- 消费者应用名称  -->
     <dubbo:application name="demo-consumer"/>
-
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-
+    <!-- 使用zk 作为注册中心 -->
+    <dubbo:registry address="zookeeper://106.75.249.240:2181"/>
+    <!-- 生成远程服务代理 可以和本地bean 一样 使用 demoService  -->
     <dubbo:reference id="demoService" check="false" interface="org.apache.dubbo.demo.DemoService"/>
 
 </beans>

@@ -20,16 +20,17 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
        http://dubbo.apache.org/schema/dubbo http://dubbo.apache.org/schema/dubbo/dubbo.xsd">
-
+    <!--  provider's application name, used for tracing dependency relationship   -->
     <dubbo:application metadata-type="remote" name="demo-provider"/>
-    <dubbo:metadata-report address="zookeeper://127.0.0.1:2181"/>
-
-    <dubbo:registry address="zookeeper://127.0.0.1:2181"/>
-
+    <!--        -->
+    <dubbo:metadata-report address="zookeeper://106.75.249.240:2181"/>
+    <!--  使用zk 作为注册中心 或者使用multicast://ip:port 广播  -->
+    <dubbo:registry address="zookeeper://106.75.249.240:2181"/>
+    <!--  使用dubbo协议 此处可以试着 port 参数 配置文件设置了  -->
     <dubbo:protocol name="dubbo"/>
-
+    <!-- 定义spring bean -->
     <bean id="demoService" class="org.apache.dubbo.demo.provider.DemoServiceImpl"/>
-
+    <!-- 声明要暴露的 service interface -->
     <dubbo:service interface="org.apache.dubbo.demo.DemoService" ref="demoService"/>
 
 </beans>
